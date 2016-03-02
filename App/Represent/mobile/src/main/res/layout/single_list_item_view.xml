@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blury_city">
+
+    <ImageView
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="#4f4f4f" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Representative Name Holder"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ffffff"
+        android:textSize="18sp"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@+id/picture"/>
+
+    <TextView
+        android:id="@+id/party"
+        android:text="party holder"
+        android:textColor="#ffffff"
+        android:textSize="15sp"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/picture"
+        android:layout_below="@+id/name"/>
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="5dp"
+        android:src="@drawable/profile_holder"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_marginTop="100dp"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:id="@+id/termHeader"
+                android:textSize="18dp"
+                android:text="End Date Term in Senate:"
+                android:background="#4f4f4f"
+                android:textColor="#ffffff"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/termHeader"
+                android:layout_centerHorizontal="true"
+                android:text="xx/xx/xxxx"
+                android:id="@+id/txtTerm"
+                android:textSize="15dp"
+                android:background="#ffffff"
+                android:textColor="@android:color/black"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTerm"
+                android:id="@+id/committeeHeader"
+                android:textSize="18dp"
+                android:text="Name of Committee: "
+                android:background="#4f4f4f"
+                android:textColor="#ffffff"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/committeeHeader"
+                android:layout_centerHorizontal="true"
+                android:text="Loreum Ipsum "
+                android:id="@+id/txtCommittee"
+                android:textSize="15dp"
+                android:background="#ffffff"
+                android:textColor="@android:color/black"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCommittee"
+                android:id="@+id/billsHeader"
+                android:textSize="18dp"
+                android:text="Recent Bills: "
+                android:background="#4f4f4f"
+                android:textColor="#ffffff"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/billsHeader"
+                android:layout_centerHorizontal="true"
+                android:text="Loreum Ipsum 1 ...-xx/xx/xxxx\nLoreum Ipsum 2 ...-xx/xx/xxxx\nLoreum Ipsum 3 ...-xx/xx/xxxx\n
+                Loreum Ipsum 1 ...-xx/xx/xxxx\nLoreum Ipsum 2 ...-xx/xx/xxxx\nLoreum Ipsum 3 ...-xx/xx/xxxx\n
+                Loreum Ipsum 1 ...-xx/xx/xxxx\nLoreum Ipsum 2 ...-xx/xx/xxxx\nLoreum Ipsum 3 ...-xx/xx/xxxx\n
+                "
+                android:id="@+id/txtBill"
+                android:textSize="15dp"
+                android:background="#ffffff"
+                android:textColor="@android:color/black"
+                android:padding="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_centerHorizontal="true"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtBill"
+                android:id="@+id/contactHeader"
+                android:textSize="18dp"
+                android:text="Contact Info:"
+                android:background="#4f4f4f"
+                android:textColor="#ffffff"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/contactHeader"
+                android:layout_centerHorizontal="true"
+                android:text="Contact Placeholder"
+                android:id="@+id/txtContact"
+                android:textSize="15dp"
+                android:background="#ffffff"
+                android:textColor="@android:color/black"
+                android:padding="10dp"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+]
+
+</RelativeLayout>

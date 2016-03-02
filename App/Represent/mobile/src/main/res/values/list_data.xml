@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="representativeName">
+        <item>Nancy Pelosi</item>
+        <item>Kevin McCarthy</item>
+        <item>Loretta Sanchez</item>
+    </string-array>
+
+    <string-array name="representNumList">
+        <item>first_representative</item>
+        <item>second_representative</item>
+        <item>third_representative</item>
+    </string-array>
+
+    <string-array name="party">
+        <item>Democratic</item>
+        <item>Republican</item>
+        <item>Democratic</item>
+    </string-array>
+
+    <string-array name="tweetMessage">
+        <item>Sample tweet message 1</item>
+        <item>Sample tweet message 2</item>
+        <item>Sample tweet message 3</item>
+    </string-array>
+
+    <string-array name="personalWebsite">
+        <item>www.google.com</item>
+        <item>www.google.com</item>
+        <item>www.google.com</item>
+    </string-array>
+
+    <string-array name="email">
+        <item>xxx@gmail.com</item>
+        <item>xxx@gmail.com</item>
+        <item>xxx@gmail.com</item>
+    </string-array>
+    
+    <string-array name="term">
+        <item> xx/xx/xxxx - date for representative1</item>
+        <item> xx/xx/xxxx - date for representative2</item>
+        <item> xx/xx/xxxx - date for representative3</item>
+    </string-array>
+    
+    <string-array name="committee">
+        <item>Committee for Nancy Pelosi</item>
+        <item>Committee for Kevin McCarthy </item>
+        <item>Committee for Loretta Sanchez</item>
+    </string-array>
+
+    <string-array name="bill">
+        <item>Recent bills for Nancy Pelosi</item>
+        <item>Recent bills for Kevin McCarthy </item>
+        <item>Recent bills for Loretta Sanchez</item>
+    </string-array>
+
+</resources>

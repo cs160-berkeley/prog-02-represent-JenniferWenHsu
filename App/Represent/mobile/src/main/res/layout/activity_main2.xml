@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="{relativePackage}.${activityClass}"
+    android:padding="10dp"
+    android:background="@drawable/blury_city">
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp"
+        android:padding="10dp"
+        android:headerDividersEnabled="true"
+        android:footerDividersEnabled="true"
+        android:layout_below="@+id/zipCode"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:id="@id/zipCode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="zipCode Holder"
+        android:textSize="20dp"
+        android:gravity="center" />
+
+</RelativeLayout>

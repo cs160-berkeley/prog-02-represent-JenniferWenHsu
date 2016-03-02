@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@android:color/white"
+    android:padding="10dp"
+    android:descendantFocusability="blocksDescendants">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="5dp" />
+
+        <!-- Representative Name -->
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Medium Text"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_toRightOf="@+id/icon"
+            android:layout_marginTop="5dp"
+            android:padding="2dp"
+            android:textSize="20dp"/>
+
+        <!-- Party description -->
+        <TextView
+            android:id="@+id/partyTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TextView"
+            android:layout_below="@+id/name"
+            android:layout_toRightOf="@+id/icon" />
+
+        <!-- Tweet Message -->
+        <TextView
+            android:id="@+id/tweetTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text = "Demo Tweet message. Hi I'm a demo tweet message."
+            android:layout_below="@+id/icon"
+            android:padding="10dp"/>
+
+        <!-- Personal Website link -->
+        <TextView
+            android:id="@+id/linkTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tweetTextView"
+            android:paddingLeft="10dp"/>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
