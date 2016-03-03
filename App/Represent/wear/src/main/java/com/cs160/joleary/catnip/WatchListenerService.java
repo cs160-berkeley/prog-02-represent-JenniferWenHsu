@@ -22,15 +22,11 @@ public class WatchListenerService extends WearableListenerService {
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d(TAG, "in PhoneListenerService, got: " + messageEvent.getPath());
         if( messageEvent.getPath().equalsIgnoreCase("/ZIP_CODE") ) {
+            Log.d(TAG, "WatchListenerService onMessageReceived sending zipcode: "+messageEvent.getData());
             Log.d(TAG, "Launching MainActivity");
-
-            String msg = messageEvent.getData().toString();
-            Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
-            toast.show();
-
             Intent intent = new Intent(this, MainActivity.class );
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("/ZIP_CODE", msg);
+            intent.putExtra("ZIP_CODE",messageEvent.getData());
             startActivity(intent);
 
         } else {

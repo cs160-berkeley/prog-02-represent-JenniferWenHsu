@@ -57,6 +57,12 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Receive update from phone (zip_code)
+        Intent intent = getIntent();
+        String zipCode = intent.getStringExtra("ZIP_CODE");
+        Toast.makeText(MainActivity.this, "Received "+zipCode, Toast.LENGTH_SHORT).show();
+
         gv=(GridView) findViewById(R.id.gridView1);
         CustomAdapter adapter = new CustomAdapter(this, nameList, partyList, imageList );
         gv.setAdapter(adapter);

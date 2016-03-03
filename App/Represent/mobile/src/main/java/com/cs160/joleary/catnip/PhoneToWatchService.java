@@ -58,9 +58,8 @@ public class PhoneToWatchService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         // which was passed over when we called startService
         Log.d(TAG, "onStartCommand called");
-        Bundle extras = intent.getExtras();
-        final String zipCode = extras.getString("ZIP_CODE");
-
+        final String zipCode = intent.getStringExtra("ZIP_CODE");
+        Log.d(TAG, "PhoneToWatchService onStartCommand received zipCode: "+zipCode);
         // Send the message with the cat name
         new Thread(new Runnable() {
             @Override

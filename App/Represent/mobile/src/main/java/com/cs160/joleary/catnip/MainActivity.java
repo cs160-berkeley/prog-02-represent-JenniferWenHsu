@@ -3,6 +3,7 @@ package com.cs160.joleary.catnip;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,7 +18,7 @@ public class MainActivity extends Activity {
     //there's not much interesting happening. when the buttons are pressed, they start
     //the PhoneToWatchService with the cat name passed in.
     public static ArrayList<Representative> reps;
-
+    public String TAG="Representative";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MainActivity extends Activity {
         r3.setEmailLink("xx@gmail.com");
         r3.setWebsiteLink("www.google.com");
 
+        //clicking on Find button
         final Button button = (Button) findViewById(R.id.zipcodeButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,17 +54,34 @@ public class MainActivity extends Activity {
                 EditText zipCodeEdit =(EditText)findViewById(R.id.zipCode);
                 final String zipCodeTxt = zipCodeEdit.getText().toString();
 
-                //sending zip code to Main2Activity
+                //sending zip code to Phone Main2Activity - this is wrong, should sent to SingleListItem
                 Intent sendActivity2Intent = new Intent(getBaseContext(), Main2Activity.class);
                 sendActivity2Intent.putExtra("ZIP_CODE", zipCodeTxt);
                 startActivity(sendActivity2Intent);
 
                 //sending zip code to PhoneToWatchService
+                Log.d(TAG, "Mobile MainActivity setOnClickListener sends: "+zipCodeTxt);
                 Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
                 sendIntent.putExtra("ZIP_CODE", zipCodeTxt);
                 startService(sendIntent);
             }
         });
+
+        //clicking on "Select Current Location" button
+
+        final Button button2 = (Button) findViewById(R.id.currentLocationButton);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                final String randomZipCode = "12345";
+                //sending zip code to Main2Activity
+                Log.d(TAG, "setOnClickListener:"+randomZipCode);
+                Intent i = new Intent(getBaseContext(), Main2Activity.class);
+                i.putExtra("ZIP_CODE", randomZipCode);
+                startActivity(i);
+
+            }
+        });
+
     }
 
     @Override

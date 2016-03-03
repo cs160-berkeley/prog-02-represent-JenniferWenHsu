@@ -22,19 +22,21 @@ public class Main2Activity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //receive information from PhoneListenerService
+
+        //receive location (zip code) from MainActivity
         Intent intent = getIntent();
-        Bundle extras = intent.getExtras();
+        String zipCode = intent.getStringExtra("ZIP_CODE");
 
+        Toast.makeText(Main2Activity.this, "Rendering information for "+ zipCode, Toast.LENGTH_LONG).show();
 
-        String name = intent.getStringExtra("ZIP_CODE");
-        String pos = intent.getStringExtra("POSITION");
+        //receive representPosition (which representative got clicked)
+        String representPosition = intent.getStringExtra("POSITION");
 
-        if(name == null)
-            name = "empty";
-        if(pos==null)
-            pos = "empty";
-        Log.d(TAG, "name: "+name + "pos: "+pos);
+/*        if(zipCode == null)
+            zipCode = "empty";
+        if(representPosition==null)
+            representPosition = "empty";*/
+        Log.d(TAG, "zipCode: "+zipCode + "  representPosition: "+representPosition);
 
         // storing string resources into Array
         final String[] representative_names = getResources().getStringArray(R.array.representativeName);

@@ -45,38 +45,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:ems="10"
-        android:layout_below="@+id/intro"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="134dp"
         android:hint="- Enter your zipcode -"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"/>
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="161dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/intro" />
 
     <Button
         android:id="@+id/zipcodeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Find"
-        android:layout_below="@+id/zipCode"
-        android:layout_centerHorizontal="true"
         android:background="#4F4F4F"
         android:textColor="@android:color/white"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingRight="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_alignBottom="@+id/zipCode"
+        android:layout_toEndOf="@+id/zipCode" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SELECT CURRENT LOCATION"
         android:id="@+id/currentLocationButton"
-        android:layout_below="@+id/zipcodeButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"
         android:background="#4F4F4F"
         android:textColor="@android:color/white"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:onClick="sendMessage"/>
+        android:layout_below="@+id/zipcodeButton"
+        android:layout_alignEnd="@+id/zipcodeButton"
+        android:layout_marginTop="54dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="OR"
+        android:id="@+id/orText"
+        android:layout_alignBottom="@+id/currentLocationButton"
+        android:layout_toStartOf="@+id/currentLocationButton"
+        android:layout_margin="10dp"/>
 
 </RelativeLayout>
