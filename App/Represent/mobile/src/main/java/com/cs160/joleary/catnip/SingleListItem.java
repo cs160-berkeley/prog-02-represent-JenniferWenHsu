@@ -29,7 +29,6 @@ public class SingleListItem extends Activity{
         int position = Integer.parseInt(posString);
 
 
-
         // displaying selected item information
         txtName.setText(MainActivity.reps.get(position).getName());
         txtParty.setText(MainActivity.reps.get(position).getParty());

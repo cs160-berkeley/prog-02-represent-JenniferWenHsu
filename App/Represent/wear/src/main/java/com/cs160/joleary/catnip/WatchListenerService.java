@@ -21,12 +21,13 @@ public class WatchListenerService extends WearableListenerService {
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
         Log.d(TAG, "in PhoneListenerService, got: " + messageEvent.getPath());
-        if( messageEvent.getPath().equalsIgnoreCase("/ZIP_CODE") ) {
-            Log.d(TAG, "WatchListenerService onMessageReceived sending zipcode: "+messageEvent.getData());
+        if( messageEvent.getPath().equalsIgnoreCase("/ZIPCODE") ) {
+            String zip = new String(messageEvent.getData());
+            Log.d(TAG, "WatchListenerService onMessageReceived zipcode: "+zip);
             Log.d(TAG, "Launching MainActivity");
             Intent intent = new Intent(this, MainActivity.class );
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra("ZIP_CODE",messageEvent.getData());
+            intent.putExtra("ZIP_CODE",zip);
             startActivity(intent);
 
         } else {

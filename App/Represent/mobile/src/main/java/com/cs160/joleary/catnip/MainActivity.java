@@ -12,13 +12,24 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.NodeApi;
+import com.google.android.gms.wearable.Wearable;
 
-public class MainActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     //there's not much interesting happening. when the buttons are pressed, they start
     //the PhoneToWatchService with the cat name passed in.
     public static ArrayList<Representative> reps = new ArrayList<>();
     public String TAG="Representative";
+    private GoogleApiClient mApiClient;
+    private List<Node> nodes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,16 +81,18 @@ public class MainActivity extends Activity {
                 EditText zipCodeEdit =(EditText)findViewById(R.id.zipCode);
                 final String zipCodeTxt = zipCodeEdit.getText().toString();
 
-                //sending zip code to Phone Main2Activity - this is wrong, should sent to SingleListItem
+                //sending zip code to Phone Main2Activity
                 Intent sendActivity2Intent = new Intent(getBaseContext(), Main2Activity.class);
                 sendActivity2Intent.putExtra("ZIP_CODE", zipCodeTxt);
                 startActivity(sendActivity2Intent);
 
-                //sending zip code to PhoneToWatchService
+    /*            //sending zip code to PhoneToWatchService
                 Log.d(TAG, "Mobile MainActivity setOnClickListener sends: "+zipCodeTxt);
                 Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
                 sendIntent.putExtra("ZIP_CODE", zipCodeTxt);
-                startService(sendIntent);
+                startService(sendIntent);*/
+
+                mApiClient.disconnect(); mApiClient.connect();
             }
         });
 
@@ -90,13 +103,21 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 final String randomZipCode = "12345";
                 //sending zip code to Main2Activity
-                Log.d(TAG, "setOnClickListener:"+randomZipCode);
+                Log.d(TAG, "setOnClickListener:" + randomZipCode);
                 Intent i = new Intent(getBaseContext(), Main2Activity.class);
                 i.putExtra("ZIP_CODE", randomZipCode);
                 startActivity(i);
 
             }
         });
+
+
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
 
     }
 
@@ -106,7 +127,52 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mApiClient.disconnect();
+    }
 
+    @Override
+    public void onConnected(Bundle bundle) {
+        Log.d(TAG, "onConnected called");
+        EditText zipCodeEdit =(EditText)findViewById(R.id.zipCode);
+        final String zipCodeTxt = zipCodeEdit.getText().toString();
+
+        Wearable.NodeApi.getConnectedNodes(mApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {
+            @Override
+            public void onResult(NodeApi.GetConnectedNodesResult getConnectedNodesResult) {
+                nodes = getConnectedNodesResult.getNodes();
+
+                sendMessage("/ZIPCODE", zipCodeTxt);
+                Log.d(TAG, "Sent Message: " + zipCodeTxt);
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    private void sendMessage( final String path, final String text ) {
+        Log.d(TAG, "Watch to Phone sendMessage called");
+
+        for(Node node: nodes)
+        {
+            PendingResult result = Wearable.MessageApi.sendMessage(mApiClient,
+                    node.getId(), path, text.getBytes());
+
+            Log.d(TAG, " Sent message. Result: " + result.toString());
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

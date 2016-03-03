@@ -90,6 +90,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             }
         });
 
+
         mApiClient = new GoogleApiClient.Builder( this )
                 .addApi( Wearable.API )
                 .addConnectionCallbacks(this)
