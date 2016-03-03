@@ -50,8 +50,9 @@ public class PhoneListenerService extends WearableListenerService {
         }
         Log.d(TAG, "PhoneListenerService Position in onMessageReceived: " + position);
 
-        Intent i = new Intent ( getApplicationContext(), Main2Activity.class);
-        i.putExtra("POSITION", position);
+        Intent i = new Intent (getApplicationContext(), SingleListItem.class);
+        String posString = Integer.toString(position);
+        i.putExtra("POSITION", posString);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
       /*  Log.d(TAG, "Launching SingleListItem");

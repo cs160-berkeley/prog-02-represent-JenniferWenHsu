@@ -28,15 +28,7 @@ public class SingleListItem extends Activity{
         String posString = pos.getStringExtra("POSITION");
         int position = Integer.parseInt(posString);
 
-  /*      Bundle bundle=this.getIntent().getExtras();
-        int pic=bundle.getInt("image");
-        String name = bundle.getString("RepresentativeName");
-        String party = bundle.getString("party");
-        String website = bundle.getString("website");
-        String email = bundle.getString("email");
-        String term = bundle.getString("term");
-        String committee = bundle.getString("committee");
-        String bill = bundle.getString("bill");*/
+
 
         // displaying selected item information
         txtName.setText(MainActivity.reps.get(position).getName());
