@@ -20,8 +20,8 @@ public class PhoneListenerService extends WearableListenerService {
     private String TAG = "Represent!";
 
 //   WearableListenerServices don't need an iBinder or an onStartCommand: they just need an onMessageReceieved.
-    final String[] representNumList = getResources().getStringArray(R.array.representNumList);
-    final String[] representative_names = getResources().getStringArray(R.array.representativeName);
+
+ /*   final String[] representative_names = getResources().getStringArray(R.array.representativeName);
     final String[] parties = getResources().getStringArray(R.array.party);
     final Integer[] pictures = {R.drawable.profile_holder, R.drawable.profile_holder, R.drawable.profile_holder};
     final String[] tweets = getResources().getStringArray(R.array.tweetMessage);
@@ -29,31 +29,32 @@ public class PhoneListenerService extends WearableListenerService {
     final String[] emails = getResources().getStringArray(R.array.email);
     final String[] terms = getResources().getStringArray(R.array.term);
     final String[] committees = getResources().getStringArray(R.array.committee);
-    final String[] bills = getResources().getStringArray(R.array.bill);
+    final String[] bills = getResources().getStringArray(R.array.bill);*/
 
 
     int position = 0;
 
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
-        Log.d("T", "in PhoneListenerService, got: " + messageEvent.getPath());
+        Log.d(TAG, "in PhoneListenerService, got: " + messageEvent.getPath());
 
         String value = new String(messageEvent.getData(), StandardCharsets.UTF_8);
-
-        if( value.equalsIgnoreCase("0") ) {
+        Log.d(TAG, "Value: " + value);
+        try {
+            position = Integer.parseInt(value);
+        }
+        catch(NumberFormatException e)
+        {
+            Log.d(TAG, "Number fomat exception!");
             position = 0;
         }
-        else if(messageEvent.getPath().equalsIgnoreCase("1")){
-            position = 1;
-        }
-        else if(messageEvent.getPath().equalsIgnoreCase("2")){
-            position = 2;
-        }
-        else {
-            Log.d(TAG, "Failure!");
-        }
+        Log.d(TAG, "Position in onMessageReceived: " + position);
 
-        Log.d(TAG, "Launching SingleListItem");
+        Intent i = new Intent ( getApplicationContext(), Main2Activity.class);
+        i.putExtra("POSITION", position);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+      /*  Log.d(TAG, "Launching SingleListItem");
         Intent i = new Intent(getApplicationContext(), SingleListItem.class);
         //sending data to new activity
         i.putExtra("RepresentativeName", representative_names[position]);
@@ -65,7 +66,7 @@ public class PhoneListenerService extends WearableListenerService {
         i.putExtra("term", terms[position]);
         i.putExtra("committee", committees[position]);
         i.putExtra("bill", bills[position]);
-
+        */
         startActivity(i);
 
     }

@@ -11,15 +11,39 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class MainActivity extends Activity {
     //there's not much interesting happening. when the buttons are pressed, they start
     //the PhoneToWatchService with the cat name passed in.
+    public static ArrayList<Representative> reps;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Representative r1 = new Representative();
+        r1.setName("Nancy Pelosi");
+        r1.setParty("Democratic");
+        r1.setTweetMessage("Demo tweet message from Nancy Pelosi");
+        r1.setEmailLink("xx@gmail.com");
+        r1.setWebsiteLink("www.google.com");
+
+        Representative r2 = new Representative();
+        r2.setName("Kevin McCarthy");
+        r2.setParty("Democratic");
+        r2.setTweetMessage("Demo tweet message from ");
+        r2.setEmailLink("xx@gmail.com");
+        r2.setWebsiteLink("www.google.com");
+
+        Representative r3 = new Representative();
+        r3.setName("Nancy Pelosi");
+        r3.setParty("Democratic");
+        r3.setTweetMessage("Demo tweet message from Nancy Pelosi");
+        r3.setEmailLink("xx@gmail.com");
+        r3.setWebsiteLink("www.google.com");
 
         final Button button = (Button) findViewById(R.id.zipcodeButton);
         button.setOnClickListener(new View.OnClickListener() {

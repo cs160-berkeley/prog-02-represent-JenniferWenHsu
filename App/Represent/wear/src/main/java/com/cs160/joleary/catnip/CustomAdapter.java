@@ -72,19 +72,6 @@ public class CustomAdapter extends BaseAdapter{
         holder.tv2.setText(party[position]);
         holder.img.setImageResource(imageId[position]);
 
-        rowView.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                Toast.makeText(context, "View Phone for more details on "+result[position], Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(context, WatchToPhoneService.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                //you need to add this flag since you're starting a new activity from a service
-                intent.putExtra("POSITION", position);
-                context.startService(intent);
-            }
-        });
 
         return rowView;
     }

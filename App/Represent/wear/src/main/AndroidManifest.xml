@@ -18,7 +18,6 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <service android:name=".WatchToPhoneService" />
         <!-- Listeners are special services that need to be declared like below, as BIND_LISTENER -->
         <service
             android:name=".WatchListenerService"

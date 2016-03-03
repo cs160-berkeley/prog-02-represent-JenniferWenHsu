@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ListActivity;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -15,6 +16,8 @@ import android.content.Intent;
 
 
 public class Main2Activity extends ListActivity {
+    private String TAG ="Represent!";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,13 +26,15 @@ public class Main2Activity extends ListActivity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
-        String name = "empty";
-        if (extras != null) {
-            name= extras.getString("ZIP_CODE");
 
-            Toast toast = Toast.makeText(getApplicationContext(), "Zip Code: "+name, Toast.LENGTH_SHORT);
-            toast.show();
-        }
+        String name = intent.getStringExtra("ZIP_CODE");
+        String pos = intent.getStringExtra("POSITION");
+
+        if(name == null)
+            name = "empty";
+        if(pos==null)
+            pos = "empty";
+        Log.d(TAG, "name: "+name + "pos: "+pos);
 
         // storing string resources into Array
         final String[] representative_names = getResources().getStringArray(R.array.representativeName);
