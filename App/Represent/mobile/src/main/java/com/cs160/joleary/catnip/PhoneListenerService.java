@@ -45,10 +45,10 @@ public class PhoneListenerService extends WearableListenerService {
         }
         catch(NumberFormatException e)
         {
-            Log.d(TAG, "Number fomat exception!");
+            Log.d(TAG, "Number format exception!");
             position = 0;
         }
-        Log.d(TAG, "Position in onMessageReceived: " + position);
+        Log.d(TAG, "PhoneListenerService Position in onMessageReceived: " + position);
 
         Intent i = new Intent ( getApplicationContext(), Main2Activity.class);
         i.putExtra("POSITION", position);

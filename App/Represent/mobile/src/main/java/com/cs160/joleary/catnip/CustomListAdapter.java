@@ -12,29 +12,21 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class CustomListAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
+    private ArrayList<Representative> reps= new ArrayList<>();
     private final String[] names;
-    private final Integer[] imgid;
-    private final String[] party;
-    private final String[] tweet;
-    private final String[] personalWebsite;
-    private final String[] email;
 
-
-    public CustomListAdapter(Activity context, String[] names, Integer[] images, String[] party,
-                             String[] tweet, String[] personalWebsite, String[] email) {
+    public CustomListAdapter(Activity context, String[] names, ArrayList<Representative> reps) {
         super(context, R.layout.activity_main2, names);
         // TODO Auto-generated constructor stub
 
         this.context=context;
         this.names = names;
-        this.imgid = images;
-        this.party = party;
-        this.tweet = tweet;
-        this.personalWebsite = personalWebsite;
-        this.email = email;
+        this.reps = reps;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -46,12 +38,12 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         TextView partyText = (TextView) rowView.findViewById(R.id.partyTextView);
         TextView websiteText = (TextView) rowView.findViewById(R.id.linkTextView);
 
-        nameText.setText(names[position]);
-        imageView.setImageResource(imgid[position]);
-        partyText.setText(party[position]);
+        nameText.setText(reps.get(position).getName());
+        imageView.setImageResource(reps.get(position).getPicID());
+        partyText.setText(reps.get(position).getParty());
         websiteText.setAutoLinkMask(Linkify.ALL);
-        websiteText.setText("Personal Website:" +personalWebsite[position] + System.getProperty("line.separator")
-                + "Email: "+email[position]);
+        websiteText.setText("Personal Website:" + reps.get(position).getWebsiteLink() + System.getProperty("line.separator")
+                + "Email: "+reps.get(position).getEmailLink());
 
         return rowView;
     };

@@ -24,7 +24,11 @@ public class SingleListItem extends Activity{
         TextView txtBill = (TextView) findViewById(R.id.txtBill);
         ImageView imgPic = (ImageView) findViewById(R.id.picture);
 
-        Bundle bundle=this.getIntent().getExtras();
+        Intent pos = getIntent();
+        String posString = pos.getStringExtra("POSITION");
+        int position = Integer.parseInt(posString);
+
+  /*      Bundle bundle=this.getIntent().getExtras();
         int pic=bundle.getInt("image");
         String name = bundle.getString("RepresentativeName");
         String party = bundle.getString("party");
@@ -32,15 +36,16 @@ public class SingleListItem extends Activity{
         String email = bundle.getString("email");
         String term = bundle.getString("term");
         String committee = bundle.getString("committee");
-        String bill = bundle.getString("bill");
+        String bill = bundle.getString("bill");*/
 
         // displaying selected item information
-        txtName.setText(name);
-        txtParty.setText(party);
-        imgPic.setImageResource(pic);
-        txtContact.setText("Personal Website: "+website+"\nEmail: "+email);
-        txtTerm.setText(term);
-        txtCommittee.setText(committee);
-        txtBill.setText(bill);
+        txtName.setText(MainActivity.reps.get(position).getName());
+        txtParty.setText(MainActivity.reps.get(position).getParty());
+        imgPic.setImageResource(MainActivity.reps.get(position).getPicID());
+        txtContact.setText("Personal Website: "+MainActivity.reps.get(position).getWebsiteLink()+
+                "\nEmail: "+MainActivity.reps.get(position).getEmailLink());
+        txtTerm.setText(MainActivity.reps.get(position).getTerm());
+        txtCommittee.setText(MainActivity.reps.get(position).getCommittee());
+        txtBill.setText(MainActivity.reps.get(position).getBill());
     }
 }

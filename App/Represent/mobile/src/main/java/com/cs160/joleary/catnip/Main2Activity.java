@@ -22,35 +22,25 @@ public class Main2Activity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         //receive location (zip code) from MainActivity
         Intent intent = getIntent();
         String zipCode = intent.getStringExtra("ZIP_CODE");
 
+        if(zipCode!=null)
         Toast.makeText(Main2Activity.this, "Rendering information for "+ zipCode, Toast.LENGTH_LONG).show();
 
-        //receive representPosition (which representative got clicked)
+        //receive representPosition (which representative got clicked) from the watch
         String representPosition = intent.getStringExtra("POSITION");
 
-/*        if(zipCode == null)
-            zipCode = "empty";
-        if(representPosition==null)
-            representPosition = "empty";*/
         Log.d(TAG, "zipCode: "+zipCode + "  representPosition: "+representPosition);
 
         // storing string resources into Array
+
         final String[] representative_names = getResources().getStringArray(R.array.representativeName);
-        final String[] parties = getResources().getStringArray(R.array.party);
-        final Integer[] pictures = {R.drawable.pelosi, R.drawable.kevinmccarthy, R.drawable.loretta_sanchez};
-        final String[] tweets = getResources().getStringArray(R.array.tweetMessage);
-        final String[] websites = getResources().getStringArray(R.array.personalWebsite);
-        final String[] emails = getResources().getStringArray(R.array.email);
-        final String[] terms = getResources().getStringArray(R.array.term);
-        final String[] committees = getResources().getStringArray(R.array.committee);
-        final String[] bills = getResources().getStringArray(R.array.bill);
+
 
         // Binding resources Array to ListAdapter
-        this.setListAdapter(new CustomListAdapter(this, representative_names, pictures, parties, tweets, websites, emails));
+        this.setListAdapter(new CustomListAdapter(this, representative_names, MainActivity.reps));
 
         ListView lv = getListView();
 
@@ -60,35 +50,12 @@ public class Main2Activity extends ListActivity {
                                     int position, long id) {
 
                 // Launching new Activity on selecting single List Item
-
-                Intent intent=new Intent(getApplicationContext(), SingleListItem.class);
-                Bundle bundle=new Bundle();
-                bundle.putInt("image", pictures[position]);
-                bundle.putString("RepresentativeName", representative_names[position]);
-                bundle.putString("party", parties[position]);
-                bundle.putString("tweet", tweets[position]);
-                bundle.putString("website", websites[position]);
-                bundle.putString("email", emails[position]);
-                bundle.putString("term", terms[position]);
-                bundle.putString("committee", committees[position]);
-                bundle.putString("bill", bills[position]);
-                intent.putExtras(bundle);
-                startActivity(intent);
+                Intent intent2 = new Intent(getApplicationContext(), SingleListItem.class);
+                String posString = Integer.toString(position);
+                intent2.putExtra("POSITION", posString);
+                startActivity(intent2);
 
 
-/*              Intent i = new Intent(getApplicationContext(), SingleListItem.class);
-                // sending data to new activity
-                i.putExtra("RepresentativeName", representative_names[position]);
-                i.putExtra("party", parties[position]);
-                i.putExtra("tweet", tweets[position]);
-                i.putExtra("picture", pictures[position]);
-                i.putExtra("website", websites[position]);
-                i.putExtra("email", emails[position]);
-                i.putExtra("term", terms[position]);
-                i.putExtra("committee", committees[position]);
-                i.putExtra("bill", bills[position]);*/
-
-                //startActivity(i);
             }
         });
     }

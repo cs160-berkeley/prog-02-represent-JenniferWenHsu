@@ -11,6 +11,46 @@ public class Representative
     private String tweetMessage;
     private String emailLink;
     private String websiteLink;
+    private String term;
+    private String committee;
+
+    public int getPicID() {
+        return picID;
+    }
+
+    public void setPicID(int picID) {
+        this.picID = picID;
+    }
+
+    private int picID;
+
+
+    public void setTerm(String term) {
+        this.term = term;
+    }
+
+    public void setBill(String bill) {
+        this.bill = bill;
+    }
+
+    public void setCommittee(String committee) {
+        this.committee = committee;
+    }
+
+    private String bill;
+
+    public String getTerm() {
+        return term;
+    }
+
+    public String getCommittee() {
+        return committee;
+    }
+
+    public String getBill() {
+        return bill;
+    }
+
 
     public Representative(){
     }
@@ -54,6 +94,7 @@ public class Representative
     public void setWebsiteLink(String websiteLink) {
         this.websiteLink = websiteLink;
     }
+
 
 
 }

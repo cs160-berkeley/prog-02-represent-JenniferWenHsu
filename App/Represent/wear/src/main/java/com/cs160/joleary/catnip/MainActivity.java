@@ -63,6 +63,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         String zipCode = intent.getStringExtra("ZIP_CODE");
         Toast.makeText(MainActivity.this, "Received "+zipCode, Toast.LENGTH_SHORT).show();
 
+
         gv=(GridView) findViewById(R.id.gridView1);
         CustomAdapter adapter = new CustomAdapter(this, nameList, partyList, imageList );
         gv.setAdapter(adapter);
@@ -74,6 +75,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 int duration = Toast.LENGTH_LONG;
                 Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
+
 
                 // Added code
                 pos = String.valueOf(position);
