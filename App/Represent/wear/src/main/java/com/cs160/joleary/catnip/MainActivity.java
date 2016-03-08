@@ -2,16 +2,23 @@ package com.cs160.joleary.catnip;
 
 
 import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.wearable.view.BoxInsetLayout;
+import android.support.wearable.view.CardFragment;
 import android.support.wearable.view.DotsPageIndicator;
+import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.GridPagerAdapter;
 import android.support.wearable.view.GridViewPager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -53,6 +60,22 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     public static String [] partyList = {"Democratic", "Republican ", "Democratic", "Obama: 62.5%\nRomney: 37.5%"};
     public static int [] imageList={R.drawable.pelosi,R.drawable.kevinmccarthy,
             R.drawable.loretta_sanchez, R.drawable.blury_city};
+
+    public void onButtonClicked(int column){
+        Toast.makeText(getApplicationContext(), "View" + nameList[column]+ " on Phone", Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onButtonClicked");
+        pos = String.valueOf(column);
+
+        mApiClient = new GoogleApiClient.Builder( this )
+                .addApi( Wearable.API )
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        mApiClient.disconnect(); mApiClient.connect();
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,39 +86,17 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         String zipCode = intent.getStringExtra("ZIP_CODE");
         Toast.makeText(MainActivity.this, "Received "+zipCode, Toast.LENGTH_SHORT).show();
 
+        final DotsPageIndicator mPageIndicator;
+        final GridViewPager mViewPager;
 
-        gv=(GridView) findViewById(R.id.gridView1);
-        CustomAdapter adapter = new CustomAdapter(this, nameList, partyList, imageList );
-        gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Context context = getApplicationContext();
-                CharSequence text = "View " + nameList[position] + "on Phone";
-                int duration = Toast.LENGTH_LONG;
-                Toast toast = Toast.makeText(context, text, duration);
-                toast.show();
+        // Get UI references
+        mPageIndicator = (DotsPageIndicator) findViewById(R.id.page_indicator);
+        mViewPager = (GridViewPager) findViewById(R.id.pager);
 
-
-                // Added code
-                pos = String.valueOf(position);
-                mApiClient.disconnect(); mApiClient.connect();
-
-
-                /*
-                Intent sendIntent = new Intent(getBaseContext(), WatchToPhoneService.class);
-                sendIntent.putExtra("POSITION", position);
-                startService(sendIntent);
-                */
-            }
-        });
-
-
-        mApiClient = new GoogleApiClient.Builder( this )
-                .addApi( Wearable.API )
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        // Assigns an adapter to provide the content for this pager
+        mViewPager.setAdapter(new myAdapter(this));
+        mPageIndicator.setPager(mViewPager);
+        
 
     }
 
@@ -141,6 +142,58 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                     node.getId(), path, text.getBytes());
 
             Log.d(TAG, " Sent message. Result: " + result.toString());
+        }
+    }
+
+    public class myAdapter extends GridPagerAdapter {
+
+        private final Context mContext;
+
+        public myAdapter(Context ctx) {
+            mContext = ctx;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup viewGroup, int row, int column){
+            View view;
+            view = LayoutInflater.from(mContext).inflate(R.layout.my_custom_card, null);
+
+            TextView name = (TextView)view.findViewById(R.id.name);
+            TextView party = (TextView)view.findViewById(R.id.party);
+            BoxInsetLayout box = (BoxInsetLayout)view.findViewById(R.id.box);
+
+            name.setText(nameList[column]);
+            party.setText(partyList[column]);
+            box.setBackgroundResource(imageList[column]);
+            final int position = column;
+            box.setOnClickListener(new BoxInsetLayout.OnClickListener() {
+                public void onClick(View view){
+                    onButtonClicked(position);
+                }
+            });
+            viewGroup.addView(view);
+            return view;
+
+        }
+
+        @Override
+        public void destroyItem(ViewGroup viewGroup, int row, int column, Object object) {
+            viewGroup.removeView((View) object);
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object){
+            return view.equals(object);
+        }
+
+        @Override
+        public int getRowCount() {
+            return 1;
+        }
+
+        @Override
+        public int getColumnCount(int row) {
+            return 3;
         }
     }
 }
