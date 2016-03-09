@@ -1,4 +1,4 @@
-package com.cs160.joleary.catnip;
+package com.cs160.jenniferwenhsu.represent;
 
 
 import android.app.Activity;
@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 public class SingleListItem extends Activity{
     @Override

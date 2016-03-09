@@ -1,4 +1,4 @@
-package com.cs160.joleary.catnip;
+package com.cs160.jenniferwenhsu.represent;
 
 import android.app.Service;
 import android.content.Intent;

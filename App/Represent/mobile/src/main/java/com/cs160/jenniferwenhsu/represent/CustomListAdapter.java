@@ -1,16 +1,15 @@
-package com.cs160.joleary.catnip;
+package com.cs160.jenniferwenhsu.represent;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.cs160.jenniferwenhsu.represent.R;
 
 import java.util.ArrayList;
 

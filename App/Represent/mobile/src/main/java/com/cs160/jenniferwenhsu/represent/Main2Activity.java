@@ -1,16 +1,12 @@
-package com.cs160.joleary.catnip;
+package com.cs160.jenniferwenhsu.represent;
 
-import android.app.Activity;
 import android.app.ListActivity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.content.Intent;
 
