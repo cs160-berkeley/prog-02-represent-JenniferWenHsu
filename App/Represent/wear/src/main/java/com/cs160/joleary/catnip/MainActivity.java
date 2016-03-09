@@ -17,6 +17,7 @@ import android.support.wearable.view.DotsPageIndicator;
 import android.support.wearable.view.FragmentGridPagerAdapter;
 import android.support.wearable.view.GridPagerAdapter;
 import android.support.wearable.view.GridViewPager;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     public static String [] partyList = {"Democratic", "Republican ", "Democratic", "Obama: 62.5%\nRomney: 37.5%"};
     public static int [] imageList={R.drawable.pelosi,R.drawable.kevinmccarthy,
             R.drawable.loretta_sanchez, R.drawable.blury_city};
+    public static double [] voteList = {75, 25};
 
     public void onButtonClicked(int column){
         Toast.makeText(getApplicationContext(), "View" + nameList[column]+ " on Phone", Toast.LENGTH_LONG).show();
@@ -96,7 +98,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         // Assigns an adapter to provide the content for this pager
         mViewPager.setAdapter(new myAdapter(this));
         mPageIndicator.setPager(mViewPager);
-        
+
 
     }
 
@@ -156,24 +158,34 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         @Override
         public Object instantiateItem(ViewGroup viewGroup, int row, int column){
             View view;
-            view = LayoutInflater.from(mContext).inflate(R.layout.my_custom_card, null);
+            if(row==0) {
+                view = LayoutInflater.from(mContext).inflate(R.layout.my_custom_card, null);
 
-            TextView name = (TextView)view.findViewById(R.id.name);
-            TextView party = (TextView)view.findViewById(R.id.party);
-            BoxInsetLayout box = (BoxInsetLayout)view.findViewById(R.id.box);
+                TextView name = (TextView) view.findViewById(R.id.name);
+                TextView party = (TextView) view.findViewById(R.id.party);
+                BoxInsetLayout box = (BoxInsetLayout) view.findViewById(R.id.box);
 
-            name.setText(nameList[column]);
-            party.setText(partyList[column]);
-            box.setBackgroundResource(imageList[column]);
-            final int position = column;
-            box.setOnClickListener(new BoxInsetLayout.OnClickListener() {
-                public void onClick(View view){
-                    onButtonClicked(position);
-                }
-            });
+                name.setText(nameList[column]);
+                party.setText(partyList[column]);
+                box.setBackgroundResource(imageList[column]);
+                final int position = column;
+                box.setOnClickListener(new BoxInsetLayout.OnClickListener() {
+                    public void onClick(View view) {
+                        onButtonClicked(position);
+                    }
+                });
+            }
+            else
+            {
+                view = LayoutInflater.from(mContext).inflate(R.layout.vote_card, null);
+                TextView vote1 = (TextView) view.findViewById(R.id.vote1);
+                TextView vote2 = (TextView) view.findViewById(R.id.vote2);
+
+                vote1.setText(Double.toString(voteList[0]));
+                vote2.setText(Double.toString(voteList[1]));
+            }
             viewGroup.addView(view);
             return view;
-
         }
 
         @Override
@@ -188,7 +200,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
 
         @Override
         public int getRowCount() {
-            return 1;
+            return 2;
         }
 
         @Override

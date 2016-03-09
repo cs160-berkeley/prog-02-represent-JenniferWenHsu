@@ -30,6 +30,8 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     public String TAG="Representative";
     private GoogleApiClient mApiClient;
     private List<Node> nodes = new ArrayList<>();
+    public static ArrayList<String> nameList = new ArrayList<>();
+    public static ArrayList<String> partyList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,11 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         reps.add(r2);
         reps.add(r3);
 
+        //convert Represenative to String arrays for transmitting to watch
+        for(int i=0; i<reps.size(); i++){
+            nameList.add(reps.get(i).getName());
+            partyList.add(reps.get(i).getParty());
+        }
         //clicking on Find button
         final Button button = (Button) findViewById(R.id.zipcodeButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -86,11 +93,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 sendActivity2Intent.putExtra("ZIP_CODE", zipCodeTxt);
                 startActivity(sendActivity2Intent);
 
-    /*            //sending zip code to PhoneToWatchService
-                Log.d(TAG, "Mobile MainActivity setOnClickListener sends: "+zipCodeTxt);
-                Intent sendIntent = new Intent(getBaseContext(), PhoneToWatchService.class);
-                sendIntent.putExtra("ZIP_CODE", zipCodeTxt);
-                startService(sendIntent);*/
 
                 mApiClient.disconnect(); mApiClient.connect();
             }
