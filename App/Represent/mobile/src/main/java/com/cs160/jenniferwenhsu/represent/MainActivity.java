@@ -2,9 +2,12 @@ package com.cs160.jenniferwenhsu.represent;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -27,6 +30,8 @@ import com.google.android.gms.wearable.Node;
 import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,6 +74,8 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
 
         Representative r1 = new Representative();
         r1.setName("Nancy Pelosi");
@@ -163,6 +170,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 //mAddressRequested to be true. Later, when GoogleApiClient connects, we launch the service to
                 //fetch the address.
                 mAddressRequested = true;
+
             }
         });
 
