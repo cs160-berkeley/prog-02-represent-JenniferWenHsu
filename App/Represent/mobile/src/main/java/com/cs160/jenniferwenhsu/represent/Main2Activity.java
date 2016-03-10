@@ -6,6 +6,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Message;
+import android.renderscript.ScriptGroup;
+import android.util.JsonReader;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,10 +25,12 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Main2Activity extends ListActivity {
-    private String TAG ="Represent!";
+    private String TAG ="Main2Activity";
     private String url = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +42,8 @@ public class Main2Activity extends ListActivity {
         String mLongitude = intent.getStringExtra("LONGITUDE");
         String mLatitude = intent.getStringExtra("LATITUDE");
 
-        url = "http://www.nytimes.com/";
-
-/*        if(zipCode!=null)*/
-/*        Toast.makeText(Main2Activity.this, "Rendering information for "+ zipCode, Toast.LENGTH_LONG).show();*/
-
+        url = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
+                "latitude="+mLatitude+"&longitude="+mLongitude+"&apikey="+Constants.SUNLIGHT_API;
 
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
@@ -100,6 +102,7 @@ public class Main2Activity extends ListActivity {
         protected String doInBackground(String... url){
             //params comes from the execute() call: params[0] is the url.
             try{
+                //this is where we parse it
                 return downloadUrl(url[0]);
             }
             catch(IOException e){
@@ -122,11 +125,11 @@ public class Main2Activity extends ListActivity {
     private String downloadUrl(String myUrl) throws  IOException{
         InputStream is = null;
         /**
-         * Only display the first 10 characters of the retrieved
+         * Only display the first 50 characters of the retrieved
          * web page content.
          */
 
-        int len = 10;
+        int len = 50;
 
         try{
             URL url = new URL(myUrl);
@@ -142,10 +145,10 @@ public class Main2Activity extends ListActivity {
             Log.d(TAG, "The response is: "+response);
             is = conn.getInputStream();
 
-            //Convert the InputStream into a string
+
+            //convert the InputStream into a string
             String contentAsString = readIt(is, len);
             return contentAsString;
-
             /**
              * Makes sure that the InputStream is closed after the app is
              * finished using it.
@@ -160,7 +163,6 @@ public class Main2Activity extends ListActivity {
     /**
      * Reads an InputStream and converts it to a String
      */
-
     public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException{
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
@@ -168,5 +170,47 @@ public class Main2Activity extends ListActivity {
         reader.read(buffer);
         return new String(buffer);
     }
+/*
+    public Representative readJsonStream(InputStream in) throws IOException{
+        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+        try{
+            return readFromJson(reader);
+        }
+        finally{
+            reader.close();
+        }
+    }
+
+    public static Representative readFromJson( JsonReader reader ) throws IOException
+    {
+        Representative rep = new Representative();
+
+        reader.beginObject();
+        while( reader.hasNext() )
+        {
+            String name = reader.nextName();
+            if( name.equals("first_name") )
+            {
+                rep.setFirstName(name);
+            }
+            else if( name.equals("last_name") )
+            {
+                rep.setLastName(name);
+            }
+            else if( name.equals("party"))
+            {
+                rep.setParty(name);
+            }
+            else
+            {
+                reader.skipValue();
+            }
+        }
+        reader.endObject();
+
+        return rep;
+    }
+*/
+
 
 }

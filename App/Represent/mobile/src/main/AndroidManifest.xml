@@ -47,6 +47,9 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDc7JW6_F_ccW8ml8ZzTf03hwUDIN4Dvj4"/>
 
+        <meta-data
+            android:name="com.sunlightfoundation.api.congress.API_KEY"
+            android:value="65dca6087a3343cc9710b8637c691213"/>
 
     </application>
 
