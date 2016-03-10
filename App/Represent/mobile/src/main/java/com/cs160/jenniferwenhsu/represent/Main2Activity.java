@@ -11,6 +11,7 @@ import android.widget.Toast;
 import android.content.Intent;
 
 
+
 public class Main2Activity extends ListActivity {
     private String TAG ="Represent!";
 
@@ -21,6 +22,9 @@ public class Main2Activity extends ListActivity {
         //receive location (zip code) from MainActivity
         Intent intent = getIntent();
         String zipCode = intent.getStringExtra("ZIP_CODE");
+        String mLongitude = intent.getStringExtra("LONGITUDE");
+        String mLatitude = intent.getStringExtra("LATITUDE");
+
 
         if(zipCode!=null)
         Toast.makeText(Main2Activity.this, "Rendering information for "+ zipCode, Toast.LENGTH_LONG).show();
