@@ -24,6 +24,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -33,7 +38,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class Main2Activity extends ListActivity {
@@ -61,7 +68,9 @@ public class Main2Activity extends ListActivity {
             @Override
             public void onResponse(String response){
                 //Display the first 500 characters of the response string.
-                Log.d(TAG, response.substring(0,500));
+                //Log.d(TAG, "RESPONSE:"+response.substring(0,500));
+                String first_name = saveData(response);
+                Log.d(TAG, "First Name:"+first_name);
             }
         }, new Response.ErrorListener(){
             @Override
@@ -71,6 +80,8 @@ public class Main2Activity extends ListActivity {
         });
         //Add the request to the RequestQueue.
         queue.add(stringRequest);
+
+
 
 
         //receive representPosition (which representative got clicked) from the watch
@@ -103,5 +114,26 @@ public class Main2Activity extends ListActivity {
             }
         });
     }
+
+    private String saveData(String result){
+        Map<String, String> map = new HashMap<String, String>();
+        try{
+            JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
+            JSONArray json2 = json.getJSONArray("results");
+
+            //access the first representative
+            JSONObject json_0 = json2.getJSONObject(0);
+            map.put("first_name0", (String)json_0.get("first_name"));
+            map.put("last_name0", (String)json_0.get("last_name"));
+            map.put("party0", (String)json_0.get("party"));
+            
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return first_name;
+    }
+
 
 }
