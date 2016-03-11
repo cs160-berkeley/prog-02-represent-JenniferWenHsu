@@ -48,21 +48,30 @@ public class Main2Activity extends ListActivity {
     private String TAG ="Main2Activity";
     private String myUrl = "";
     public ArrayList<Map> list = new ArrayList<Map>();
-    public String[] representative_names = new String[3];
+    public String[] representative_names = new String[4];
     public static ArrayList<Representative> reps = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //receive location (zip code) from MainActivity
+        //receive location from MainActivity
         Intent intent = getIntent();
         String zipCode = intent.getStringExtra("ZIP_CODE");
         String mLongitude = intent.getStringExtra("LONGITUDE");
         String mLatitude = intent.getStringExtra("LATITUDE");
 
-        myUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
-                "latitude="+mLatitude+"&longitude="+mLongitude+"&apikey="+Constants.SUNLIGHT_API;
+        Log.d(TAG, "zipCode value: "+zipCode);
+        if(zipCode==null) {
+            myUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
+                    "latitude=" + mLatitude + "&longitude=" + mLongitude + "&apikey=" + Constants.SUNLIGHT_API;
+        }
+        else{
+            myUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
+                    "zip="+zipCode+"&apikey="+Constants.SUNLIGHT_API;
+        }
+
+        Log.d(TAG, "current URL: "+myUrl);
 
         //Instantiate the RequestQueue
         RequestQueue queue = Volley.newRequestQueue(this);
@@ -86,8 +95,15 @@ public class Main2Activity extends ListActivity {
                  * Try to do all the work here because this is an asynchronized task
                  */
 
+                //populate representative_names with dummy data
+                int i=0;
+                while(i<4){
+                    representative_names[i]="dummy";
+                    i++;
+                }
                 //store all the names in a String array and information in a Representative ArrayList
                 count = 0;
+                Log.d(TAG, "list.size: "+list.size());
                 while(count<list.size()){
                     String firstName = (String)list.get(count).get("first_name");
                     String lastName = (String)list.get(count).get("last_name");
@@ -110,8 +126,17 @@ public class Main2Activity extends ListActivity {
                     count ++;
                 }
 
+                //remove elements in representative_names that are dummy data
+                String[] newNames = new String[count];
+                int j = 0;
+                while(j<representative_names.length){
+                    if(representative_names[j]!="dummy"){
+                        newNames[j] = representative_names[j];
+                    }
+                    j++;
+                }
 
-                CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, representative_names, reps);
+                CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, newNames, reps);
                 ListView lv = getListView();
                 lv.setAdapter(adapter);
 
