@@ -46,6 +46,7 @@ import java.util.Map;
 public class Main2Activity extends ListActivity {
     private String TAG ="Main2Activity";
     private String myUrl = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,10 +68,20 @@ public class Main2Activity extends ListActivity {
                 new Response.Listener<String>(){
             @Override
             public void onResponse(String response){
-                //Display the first 500 characters of the response string.
-                //Log.d(TAG, "RESPONSE:"+response.substring(0,500));
-                String first_name = saveData(response);
-                Log.d(TAG, "First Name:"+first_name);
+                Log.d(TAG, "responding");
+                ArrayList<Map> list = new ArrayList<Map>();
+                list= saveData(response);
+                Log.d(TAG, "list size: "+list.size());
+                //temporarily displaying all the gathered info
+                int count = 0;
+                while(count<list.size()) {
+                    Log.d(TAG, "firstName:" + list.get(count).get("first_name"));
+                    Log.d(TAG, "lastName:" + list.get(count).get("last_name"));
+                    Log.d(TAG, "party:"+ list.get(count).get("party"));
+                    count++;
+                }
+
+
             }
         }, new Response.ErrorListener(){
             @Override
@@ -80,8 +91,6 @@ public class Main2Activity extends ListActivity {
         });
         //Add the request to the RequestQueue.
         queue.add(stringRequest);
-
-
 
 
         //receive representPosition (which representative got clicked) from the watch
@@ -115,24 +124,28 @@ public class Main2Activity extends ListActivity {
         });
     }
 
-    private String saveData(String result){
-        Map<String, String> map = new HashMap<String, String>();
+    public ArrayList<Map> saveData(String result){
+        ArrayList<Map> list = new ArrayList<Map>();
         try{
             JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
             JSONArray json2 = json.getJSONArray("results");
 
-            //access the first representative
-            JSONObject json_0 = json2.getJSONObject(0);
-            map.put("first_name0", (String)json_0.get("first_name"));
-            map.put("last_name0", (String)json_0.get("last_name"));
-            map.put("party0", (String)json_0.get("party"));
-            
+            int count = 0;
+            while(count < json2.length()){
+                Map<String, String> map = new HashMap<String, String>();
+                JSONObject json3 = json2.getJSONObject(count);
+                map.put("first_name", (String) json3.get("first_name"));
+                map.put("last_name", (String)json3.get("last_name"));
+                map.put("party", (String)json3.get("party"));
+                list.add(map);
+                count ++;
+            }
         }
         catch (JSONException e){
             e.printStackTrace();
         }
 
-        return first_name;
+        return list;
     }
 
 
