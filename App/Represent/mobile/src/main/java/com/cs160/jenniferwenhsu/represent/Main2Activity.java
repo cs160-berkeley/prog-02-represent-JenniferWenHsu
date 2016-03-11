@@ -17,6 +17,13 @@ import android.widget.ListView;
 import android.widget.Toast;
 import android.content.Intent;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -31,7 +38,7 @@ import java.util.List;
 
 public class Main2Activity extends ListActivity {
     private String TAG ="Main2Activity";
-    private String url = "";
+    private String myUrl = "";
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,19 +49,28 @@ public class Main2Activity extends ListActivity {
         String mLongitude = intent.getStringExtra("LONGITUDE");
         String mLatitude = intent.getStringExtra("LATITUDE");
 
-        url = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
+        myUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
                 "latitude="+mLatitude+"&longitude="+mLongitude+"&apikey="+Constants.SUNLIGHT_API;
 
-        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnected()){
-            //fetch data
-            new DownloadWebpageTask().execute(url);
-        }
-        else{
-            //display error
-            Log.d(TAG, "No network connection available.");
-        }
+        //Instantiate the RequestQueue
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        //Request a string response from the provided URL
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, myUrl,
+                new Response.Listener<String>(){
+            @Override
+            public void onResponse(String response){
+                //Display the first 500 characters of the response string.
+                Log.d(TAG, response.substring(0,500));
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error){
+                Log.d(TAG, "That didn't work!");
+            }
+        });
+        //Add the request to the RequestQueue.
+        queue.add(stringRequest);
 
 
         //receive representPosition (which representative got clicked) from the watch
@@ -87,130 +103,5 @@ public class Main2Activity extends ListActivity {
             }
         });
     }
-
-    /**
-     * Uses AsyncTask to create a task away from the main UI thread. This task takes a
-     * URL string and uses it to create an HttpUrlConnection. Once the connection
-     * has been established, the AsyncTask downloads the contents of the webpage as
-     * an InputStream. Finally, the InputStream is converted into a string, which is
-     * displayed in the UI by the AsyncTask's onPostExecute method.
-     * The details should be changed afterwards
-     */
-
-    private class DownloadWebpageTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... url){
-            //params comes from the execute() call: params[0] is the url.
-            try{
-                //this is where we parse it
-                return downloadUrl(url[0]);
-            }
-            catch(IOException e){
-                return "Unable to retrieve web page. URL may be invalid.";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result){
-            Log.d(TAG, result);
-        }
-    }
-
-    /**
-     * Given a URL, establishes an HttpUrlConnection and retrieves
-     * the web page content as a InputStream, which it returns as
-     * a string
-     */
-
-    private String downloadUrl(String myUrl) throws  IOException{
-        InputStream is = null;
-        /**
-         * Only display the first 50 characters of the retrieved
-         * web page content.
-         */
-
-        int len = 50;
-
-        try{
-            URL url = new URL(myUrl);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
-            conn.setRequestMethod("GET");
-            conn.setDoInput(true);
-
-            //Starts the query
-            conn.connect();
-            int response = conn.getResponseCode();
-            Log.d(TAG, "The response is: "+response);
-            is = conn.getInputStream();
-
-
-            //convert the InputStream into a string
-            String contentAsString = readIt(is, len);
-            return contentAsString;
-            /**
-             * Makes sure that the InputStream is closed after the app is
-             * finished using it.
-             */
-        }finally{
-            if(is!=null){
-                is.close();
-            }
-        }
-    }
-
-    /**
-     * Reads an InputStream and converts it to a String
-     */
-    public String readIt(InputStream stream, int len) throws IOException, UnsupportedEncodingException{
-        Reader reader = null;
-        reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);
-    }
-/*
-    public Representative readJsonStream(InputStream in) throws IOException{
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        try{
-            return readFromJson(reader);
-        }
-        finally{
-            reader.close();
-        }
-    }
-
-    public static Representative readFromJson( JsonReader reader ) throws IOException
-    {
-        Representative rep = new Representative();
-
-        reader.beginObject();
-        while( reader.hasNext() )
-        {
-            String name = reader.nextName();
-            if( name.equals("first_name") )
-            {
-                rep.setFirstName(name);
-            }
-            else if( name.equals("last_name") )
-            {
-                rep.setLastName(name);
-            }
-            else if( name.equals("party"))
-            {
-                rep.setParty(name);
-            }
-            else
-            {
-                reader.skipValue();
-            }
-        }
-        reader.endObject();
-
-        return rep;
-    }
-*/
-
 
 }
