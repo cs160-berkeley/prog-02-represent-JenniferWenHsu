@@ -49,6 +49,7 @@ public class Main2Activity extends ListActivity {
     private String myUrl = "";
     public ArrayList<Map> list = new ArrayList<Map>();
     public String[] representative_names = new String[3];
+    public static ArrayList<Representative> reps = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,15 +86,32 @@ public class Main2Activity extends ListActivity {
                  * Try to do all the work here because this is an asynchronized task
                  */
 
-                //store all the names in a String array
+                //store all the names in a String array and information in a Representative ArrayList
                 count = 0;
                 while(count<list.size()){
-                    representative_names[count] = (String)list.get(count).get("first_name");
+                    String firstName = (String)list.get(count).get("first_name");
+                    String lastName = (String)list.get(count).get("last_name");
+                    String partyTxt = (String)list.get(count).get("party");
+                    String websiteTxt = (String)list.get(count).get("website");
+                    String emailTxt = (String)list.get(count).get("oc_email");
+                    String termStartTxt = (String)list.get(count).get("term_start");
+                    String termEndTxt = (String)list.get(count).get("term_end");
+                    representative_names[count] = firstName + " " + lastName;
+
+                    Representative tempRep = new Representative();
+                    tempRep.setName(firstName + " " + lastName);
+                    tempRep.setParty(partyTxt);
+                    tempRep.setWebsiteLink(websiteTxt);
+                    tempRep.setEmailLink(emailTxt);
+                    tempRep.setTermStart(termStartTxt);
+                    tempRep.setTermEnd(termEndTxt);
+
+                    reps.add(tempRep);
                     count ++;
                 }
 
-                //store information in a list
-                CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, representative_names, MainActivity.reps);
+
+                CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, representative_names, reps);
                 ListView lv = getListView();
                 lv.setAdapter(adapter);
 
@@ -123,32 +141,6 @@ public class Main2Activity extends ListActivity {
         //receive representPosition (which representative got clicked) from the watch
         String representPosition = intent.getStringExtra("POSITION");
 
-/*        Log.d(TAG, "zipCode: "+zipCode + "  representPosition: "+representPosition);
-
-        // storing string resources into Array
-
-        final String[] representative_names = getResources().getStringArray(R.array.representativeName);
-
-
-        // Binding resources Array to ListAdapter
-        this.setListAdapter(new CustomListAdapter(this, representative_names, MainActivity.reps));
-
-        ListView lv = getListView();
-
-        // listening to single list item on click
-        lv.setOnItemClickListener(new OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-
-                // Launching new Activity on selecting single List Item
-                Intent intent2 = new Intent(getApplicationContext(), SingleListItem.class);
-                String posString = Integer.toString(position);
-                intent2.putExtra("POSITION", posString);
-                startActivity(intent2);
-
-
-            }
-        });*/
     }
 
     public ArrayList<Map> saveData(String result){
@@ -164,6 +156,10 @@ public class Main2Activity extends ListActivity {
                 map.put("first_name", (String) json3.get("first_name"));
                 map.put("last_name", (String)json3.get("last_name"));
                 map.put("party", (String)json3.get("party"));
+                map.put("website", (String)json3.get("website"));
+                map.put("oc_email", (String)json3.get("oc_email"));
+                map.put("term_end", (String)json3.get("term_end"));
+                map.put("term_start", (String)json3.get("term_start"));
                 list.add(map);
                 count ++;
             }

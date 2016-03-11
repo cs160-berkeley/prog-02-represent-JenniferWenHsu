@@ -30,7 +30,25 @@ public class Representative
     private String tweetMessage;
     private String emailLink;
     private String websiteLink;
-    private String term;
+    private String termEnd;
+
+    public String getTermStart() {
+        return termStart;
+    }
+
+    public void setTermStart(String termStart) {
+        this.termStart = termStart;
+    }
+
+    public String getTermEnd() {
+        return termEnd;
+    }
+
+    public void setTermEnd(String termEnd) {
+        this.termEnd = termEnd;
+    }
+
+    private String termStart;
     private String committee;
 
     public int getPicID() {
@@ -44,10 +62,6 @@ public class Representative
     private int picID;
 
 
-    public void setTerm(String term) {
-        this.term = term;
-    }
-
     public void setBill(String bill) {
         this.bill = bill;
     }
@@ -58,9 +72,6 @@ public class Representative
 
     private String bill;
 
-    public String getTerm() {
-        return term;
-    }
 
     public String getCommittee() {
         return committee;

@@ -37,7 +37,7 @@ import java.util.List;
 
 public class MainActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    public static ArrayList<Representative> reps = new ArrayList<>();
+    //public static ArrayList<Representative> reps = new ArrayList<>();
     public String TAG="Representative";
     private List<Node> nodes = new ArrayList<>();
 
@@ -75,44 +75,6 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
-        Representative r1 = new Representative();
-        r1.setName("Nancy Pelosi");
-        r1.setParty("Democratic");
-        r1.setTweetMessage("Demo tweet message from "+r1.getName());
-        r1.setEmailLink("xx@gmail.com");
-        r1.setWebsiteLink("www.google.com");
-        r1.setTerm("xx/xx/xxxx - date for " + r1.getName());
-        r1.setCommittee("Committee for " + r1.getName());
-        r1.setBill("Recent bills for " + r1.getName());
-        r1.setPicID(R.drawable.pelosi);
-
-        Representative r2 = new Representative();
-        r2.setName("Kevin McCarthy");
-        r2.setParty("Republican");
-        r2.setTweetMessage("Demo tweet message from "+r2.getName());
-        r2.setEmailLink("xx@gmail.com");
-        r2.setWebsiteLink("www.google.com");
-        r2.setTerm("xx/xx/xxxx - date for " + r2.getName());
-        r2.setCommittee("Committee for "+r2.getName());
-        r2.setBill("Recent bills for "+r2.getName());
-        r2.setPicID(R.drawable.kevinmccarthy);
-
-        Representative r3 = new Representative();
-        r3.setName("Loretta Sanchez");
-        r3.setParty("Democratic");
-        r3.setTweetMessage("Demo tweet message from " + r3.getName());
-        r3.setEmailLink("xx@gmail.com");
-        r3.setWebsiteLink("www.google.com");
-        r3.setTerm("xx/xx/xxxx - date for " + r3.getName());
-        r3.setCommittee("Committee for " + r3.getName());
-        r3.setBill("Recent bills for " + r3.getName());
-        r3.setPicID(R.drawable.loretta_sanchez);
-
-        reps.add(r1);
-        reps.add(r2);
-        reps.add(r3);
 
         mLocationAddressTextView = (TextView)findViewById(R.id.location_address_view);
         //clicking on Find button

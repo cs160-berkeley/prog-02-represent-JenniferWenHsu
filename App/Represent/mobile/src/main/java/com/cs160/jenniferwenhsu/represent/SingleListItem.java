@@ -28,13 +28,15 @@ public class SingleListItem extends Activity{
 
 
         // displaying selected item information
-        txtName.setText(MainActivity.reps.get(position).getName());
-        txtParty.setText(MainActivity.reps.get(position).getParty());
-        imgPic.setImageResource(MainActivity.reps.get(position).getPicID());
-        txtContact.setText("Personal Website: "+MainActivity.reps.get(position).getWebsiteLink()+
-                "\nEmail: "+MainActivity.reps.get(position).getEmailLink());
-        txtTerm.setText(MainActivity.reps.get(position).getTerm());
-        txtCommittee.setText(MainActivity.reps.get(position).getCommittee());
-        txtBill.setText(MainActivity.reps.get(position).getBill());
+        txtName.setText(Main2Activity.reps.get(position).getName());
+        txtParty.setText(Main2Activity.reps.get(position).getParty());
+        imgPic.setImageResource(Main2Activity.reps.get(position).getPicID());
+        txtContact.setText("Personal Website: " + Main2Activity.reps.get(position).getWebsiteLink() +
+                "\nEmail: " + Main2Activity.reps.get(position).getEmailLink());
+        String termStart = Main2Activity.reps.get(position).getTermStart();
+        String termEnd = Main2Activity.reps.get(position).getTermEnd();
+        txtTerm.setText(termStart + " ~ "+termEnd);
+        txtCommittee.setText(Main2Activity.reps.get(position).getCommittee());
+        txtBill.setText(Main2Activity.reps.get(position).getBill());
     }
 }
