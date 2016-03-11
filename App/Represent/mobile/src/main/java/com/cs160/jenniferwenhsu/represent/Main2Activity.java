@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.content.Intent;
@@ -46,6 +47,8 @@ import java.util.Map;
 public class Main2Activity extends ListActivity {
     private String TAG ="Main2Activity";
     private String myUrl = "";
+    public ArrayList<Map> list = new ArrayList<Map>();
+    public String[] representative_names = new String[3];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,10 +71,7 @@ public class Main2Activity extends ListActivity {
                 new Response.Listener<String>(){
             @Override
             public void onResponse(String response){
-                Log.d(TAG, "responding");
-                ArrayList<Map> list = new ArrayList<Map>();
                 list= saveData(response);
-                Log.d(TAG, "list size: "+list.size());
                 //temporarily displaying all the gathered info
                 int count = 0;
                 while(count<list.size()) {
@@ -81,7 +81,35 @@ public class Main2Activity extends ListActivity {
                     count++;
                 }
 
+                /**
+                 * Try to do all the work here because this is an asynchronized task
+                 */
 
+                //store all the names in a String array
+                count = 0;
+                while(count<list.size()){
+                    representative_names[count] = (String)list.get(count).get("first_name");
+                    count ++;
+                }
+
+                //store information in a list
+                CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, representative_names, MainActivity.reps);
+                ListView lv = getListView();
+                lv.setAdapter(adapter);
+
+                // listening to single list item on click
+                lv.setOnItemClickListener(new OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> parent, View view,
+                                            int position, long id) {
+
+                        // Launching new Activity on selecting single List Item
+                        Intent intent2 = new Intent(getApplicationContext(), SingleListItem.class);
+                        String posString = Integer.toString(position);
+                        intent2.putExtra("POSITION", posString);
+                        startActivity(intent2);
+
+                    }
+                });
             }
         }, new Response.ErrorListener(){
             @Override
@@ -92,11 +120,10 @@ public class Main2Activity extends ListActivity {
         //Add the request to the RequestQueue.
         queue.add(stringRequest);
 
-
         //receive representPosition (which representative got clicked) from the watch
         String representPosition = intent.getStringExtra("POSITION");
 
-        Log.d(TAG, "zipCode: "+zipCode + "  representPosition: "+representPosition);
+/*        Log.d(TAG, "zipCode: "+zipCode + "  representPosition: "+representPosition);
 
         // storing string resources into Array
 
@@ -121,7 +148,7 @@ public class Main2Activity extends ListActivity {
 
 
             }
-        });
+        });*/
     }
 
     public ArrayList<Map> saveData(String result){
@@ -147,6 +174,5 @@ public class Main2Activity extends ListActivity {
 
         return list;
     }
-
 
 }

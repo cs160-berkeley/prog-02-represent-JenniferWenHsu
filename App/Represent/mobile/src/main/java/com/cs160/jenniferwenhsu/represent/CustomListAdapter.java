@@ -37,7 +37,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         TextView partyText = (TextView) rowView.findViewById(R.id.partyTextView);
         TextView websiteText = (TextView) rowView.findViewById(R.id.linkTextView);
 
-        nameText.setText(reps.get(position).getName());
+        nameText.setText(names[position]);
         imageView.setImageResource(reps.get(position).getPicID());
         partyText.setText(reps.get(position).getParty());
         websiteText.setAutoLinkMask(Linkify.ALL);
