@@ -1,6 +1,7 @@
 package com.cs160.jenniferwenhsu.represent;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,21 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
         nameText.setText(names[position]);
         imageView.setImageResource(reps.get(position).getPicID());
-        partyText.setText(reps.get(position).getParty());
+
+        //add design to the partyText
+        String party = reps.get(position).getParty();
+        if(party.equals("D")){
+            partyText.setText("Democratic");
+            partyText.setTextColor(Color.BLUE);
+        }
+        else if(party.equals("R")){
+            partyText.setText("Republican");
+            partyText.setTextColor(Color.RED);
+        }
+        else{
+            partyText.setText("Independent");
+            partyText.setTextColor(Color.BLACK);
+        }
         websiteText.setAutoLinkMask(Linkify.ALL);
         websiteText.setText("Personal Website:" + reps.get(position).getWebsiteLink() + System.getProperty("line.separator")
                 + "Email: "+reps.get(position).getEmailLink());

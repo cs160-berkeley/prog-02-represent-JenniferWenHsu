@@ -101,6 +101,8 @@ public class Main2Activity extends ListActivity {
                     representative_names[i]="dummy";
                     i++;
                 }
+                //clear all previous data stored in reps
+                reps = new ArrayList<>();
                 //store all the names in a String array and information in a Representative ArrayList
                 count = 0;
                 Log.d(TAG, "list.size: "+list.size());
