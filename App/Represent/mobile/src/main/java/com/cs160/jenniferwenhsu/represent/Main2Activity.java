@@ -142,6 +142,39 @@ public class Main2Activity extends ListActivity {
                     j++;
                 }
 
+                //Request response from a URL
+                int iteration = 0;
+                String memberID = null;
+                String url2 = null;
+
+                while(iteration< reps.size()){
+                    memberID = reps.get(iteration).getMemberID();
+                    url2 = "http://congress.api.sunlightfoundation.com/committees?" +
+                            "member_ids="+memberID+"&apikey="+Constants.SUNLIGHT_API;
+                    iteration ++;
+                }
+                RequestQueue queue2 = Volley.newRequestQueue(Main2Activity.this);
+                StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                committee_list = saveData2(response);
+                                int count = 0;
+                                while (count < reps.size()) {
+                                    reps.get(count).setCommitteeNames(committee_list);
+                                    Log.d(TAG, "committee names:" + reps.get(count).getCommitteeNames());
+                                    count++;
+                                }
+                            }
+                        }, new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        Log.d(TAG, "That didn't work!");
+                    }
+                });
+
+                queue2.add(stringRequest2);
+
                 CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, newNames, reps);
                 ListView lv = getListView();
                 lv.setAdapter(adapter);
@@ -159,40 +192,6 @@ public class Main2Activity extends ListActivity {
 
                     }
                 });
-
-                //Request response from a URL
-                int iteration = 0;
-                String memberID = null;
-                String url2 = null;
-
-                while(iteration< reps.size()){
-                    memberID = reps.get(iteration).getMemberID();
-                    Log.d(TAG, "Member ID: "+memberID);
-                    url2 = "http://congress.api.sunlightfoundation.com/committees?" +
-                            "member_ids="+memberID+"&apikey="+Constants.SUNLIGHT_API;
-                    Log.d(TAG, "current second URL: " + url2);
-                    iteration ++;
-                }
-                RequestQueue queue2 = Volley.newRequestQueue(Main2Activity.this);
-                StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                committee_list = saveData2(response);
-                                int count = 0;
-                                while (count < committee_list.size()) {
-                                    Log.d(TAG, "committee name:" + committee_list.get(count));
-                                    count++;
-                                }
-                            }
-                        }, new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        Log.d(TAG, "That didn't work!");
-                    }
-                });
-
-                queue2.add(stringRequest2);
 
             }
         }, new Response.ErrorListener(){

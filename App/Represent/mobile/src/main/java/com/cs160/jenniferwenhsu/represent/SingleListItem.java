@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class SingleListItem extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,18 @@ public class SingleListItem extends Activity{
         String termStart = Main2Activity.reps.get(position).getTermStart();
         String termEnd = Main2Activity.reps.get(position).getTermEnd();
         txtTerm.setText(termStart + " ~ "+termEnd);
-        txtCommittee.setText(Main2Activity.reps.get(position).getCommittee());
+
+        /**
+         * add design to the Committee
+         */
+        int count = 0;
+        ArrayList<String> committee_list = Main2Activity.reps.get(position).getCommitteeNames();
+        while(count< committee_list.size()){
+            String result = committee_list.get(count)+ "\n";
+            txtCommittee.setText(result);
+            count++;
+        }
+
         txtBill.setText(Main2Activity.reps.get(position).getBill());
     }
 }

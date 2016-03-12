@@ -1,5 +1,7 @@
 package com.cs160.jenniferwenhsu.represent;
 
+import java.util.ArrayList;
+
 /**
  * Created by apple on 2/26/16.
  */
@@ -32,6 +34,16 @@ public class Representative
     private String websiteLink;
     private String termEnd;
 
+    public ArrayList<String> getCommitteeNames() {
+        return committeeNames;
+    }
+
+    public void setCommitteeNames(ArrayList<String> committeeNames) {
+        this.committeeNames = committeeNames;
+    }
+
+    private ArrayList<String> committeeNames = new ArrayList<String>();
+
     public String getMemberID() {
         return memberID;
     }
@@ -59,7 +71,6 @@ public class Representative
     }
 
     private String termStart;
-    private String committee;
 
     public int getPicID() {
         return picID;
@@ -76,16 +87,9 @@ public class Representative
         this.bill = bill;
     }
 
-    public void setCommittee(String committee) {
-        this.committee = committee;
-    }
 
     private String bill;
 
-
-    public String getCommittee() {
-        return committee;
-    }
 
     public String getBill() {
         return bill;
