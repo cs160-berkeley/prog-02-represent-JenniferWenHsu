@@ -88,13 +88,4 @@
         android:layout_toStartOf="@+id/currentLocationButton"
         android:layout_margin="10dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/location_address_view"
-        android:layout_below="@+id/currentLocationButton"
-        android:layout_alignStart="@+id/intro" />
-
 </RelativeLayout>

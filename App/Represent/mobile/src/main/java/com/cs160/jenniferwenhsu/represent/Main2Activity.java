@@ -50,6 +50,8 @@ public class Main2Activity extends ListActivity {
     private String url2 = "";
     public ArrayList<Map> list = new ArrayList<Map>();
     public ArrayList<String> committee_list = new ArrayList<String>();
+    public ArrayList<String> billNames = new ArrayList<String>();
+    public ArrayList<String> introducedDates = new ArrayList<String>();
     public String[] representative_names = new String[4];
     public static ArrayList<Representative> reps = new ArrayList<>();
 
@@ -146,34 +148,48 @@ public class Main2Activity extends ListActivity {
                 int iteration = 0;
                 String memberID = null;
                 String url2 = null;
+                String url3 = null;
 
-                while(iteration< reps.size()){
+                RequestQueue queue2 = Volley.newRequestQueue(Main2Activity.this);
+                while(iteration< reps.size()) {
                     memberID = reps.get(iteration).getMemberID();
                     url2 = "http://congress.api.sunlightfoundation.com/committees?" +
-                            "member_ids="+memberID+"&apikey="+Constants.SUNLIGHT_API;
+                            "member_ids=" + memberID + "&apikey=" + Constants.SUNLIGHT_API;
+                    url3 = "http://congress.api.sunlightfoundation.com/bills?" +
+                            "sponsor_id="+memberID+"&apikey="+Constants.SUNLIGHT_API;
+                    final int position = iteration;
+                    StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    committee_list = saveData2(response);
+                                    reps.get(position).setCommitteeNames(committee_list);
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d(TAG, "That didn't work!");
+                        }
+                    });
+                    queue2.add(stringRequest2);
+                    StringRequest stringRequest3 = new StringRequest(Request.Method.GET, url3,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    billNames = saveData3(response);
+                                    introducedDates = saveData4(response);
+                                    reps.get(position).setBillNames(billNames);
+                                    reps.get(position).setIntroducedDates(introducedDates);
+                                }
+                            }, new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error){
+                            Log.d(TAG, "That didn't work!");
+                        }
+                    });
+                    queue2.add(stringRequest3);
                     iteration ++;
                 }
-                RequestQueue queue2 = Volley.newRequestQueue(Main2Activity.this);
-                StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                committee_list = saveData2(response);
-                                int count = 0;
-                                while (count < reps.size()) {
-                                    reps.get(count).setCommitteeNames(committee_list);
-                                    Log.d(TAG, "committee names:" + reps.get(count).getCommitteeNames());
-                                    count++;
-                                }
-                            }
-                        }, new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        Log.d(TAG, "That didn't work!");
-                    }
-                });
-
-                queue2.add(stringRequest2);
 
                 CustomListAdapter adapter =new CustomListAdapter(Main2Activity.this, newNames, reps);
                 ListView lv = getListView();
@@ -258,5 +274,42 @@ public class Main2Activity extends ListActivity {
 
         return list;
     }
+    public ArrayList<String> saveData3(String result){
+        ArrayList<String> list = new ArrayList<String>();
+        try{
+            JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
+            JSONArray json2 = json.getJSONArray("results");
 
+            int count = 0;
+            while(count < json2.length()){
+                JSONObject json3 = json2.getJSONObject(count);
+                list.add((String)json3.get("official_title"));
+                count ++;
+            }
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    public ArrayList<String> saveData4(String result){
+        ArrayList<String> list = new ArrayList<String>();
+        try{
+            JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
+            JSONArray json2 = json.getJSONArray("results");
+
+            int count = 0;
+            while(count < json2.length()){
+                JSONObject json3 = json2.getJSONObject(count);
+                list.add((String)json3.get("introduced_on"));
+                count ++;
+            }
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
 }

@@ -34,6 +34,27 @@ public class Representative
     private String websiteLink;
     private String termEnd;
 
+    public ArrayList<String> getIntroducedDates() {
+        return introducedDates;
+    }
+
+    public void setIntroducedDates(ArrayList<String> introducedDates) {
+        this.introducedDates = introducedDates;
+    }
+
+    private ArrayList<String> introducedDates;
+    public ArrayList<String> getBillNames() {
+        return billNames;
+    }
+
+    public void setBillNames(ArrayList<String> billNames) {
+        this.billNames = billNames;
+    }
+
+
+
+    private ArrayList<String> billNames = new ArrayList<String>();
+
     public ArrayList<String> getCommitteeNames() {
         return committeeNames;
     }

@@ -66,6 +66,17 @@ public class SingleListItem extends Activity{
             count++;
         }
 
-        txtBill.setText(Main2Activity.reps.get(position).getBill());
+        /**
+         * displayig Bills
+         */
+        count = 0;
+        ArrayList<String> bill_list = Main2Activity.reps.get(position).getBillNames();
+        ArrayList<String> date_list = Main2Activity.reps.get(position).getIntroducedDates();
+        while(count< bill_list.size()){
+            String result = bill_list.get(count)+ "\n - "+date_list.get(count);
+            txtBill.setText(result);
+            count++;
+        }
+        //txtBill.setText(Main2Activity.reps.get(position).getBill());
     }
 }
