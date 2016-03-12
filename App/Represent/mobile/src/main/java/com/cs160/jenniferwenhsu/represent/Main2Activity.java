@@ -109,7 +109,7 @@ public class Main2Activity extends ListActivity {
                 reps = new ArrayList<>();
                 //store all the names in a String array and information in a Representative ArrayList
                 count = 0;
-                Log.d(TAG, "list.size: "+list.size());
+                Log.d(TAG, "list.size: " + list.size());
                 while(count<list.size()){
                     String firstName = (String)list.get(count).get("first_name");
                     String lastName = (String)list.get(count).get("last_name");
@@ -164,6 +164,7 @@ public class Main2Activity extends ListActivity {
                                 public void onResponse(String response) {
                                     committee_list = saveData2(response);
                                     reps.get(position).setCommitteeNames(committee_list);
+
                                 }
                             }, new Response.ErrorListener() {
                         @Override

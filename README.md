@@ -1,20 +1,20 @@
 # PROG 02: Represent!
 
-Briefly describe your app here.
+This is a phone and watch communicating app that generates inforamtion on the representatives in a specified area. It could be from your current location or a input zipCode. 
+
 
 ## Authors
 
-FirstName LastName ([your_email@berkeley.edu](mailto:your_email@berkeley.edu))
+Jennifer Hsu ([jwhsu@berkeley.edu](mailto:jwhsu@berkeley.edu))
 
 ## Demo Video
 
-See [your demo video title here] (https://link_to_your_video)
+See [CS160 Project02 Phase C ] (https://www.youtube.com/watch?v=y76oJ2rYjhY&feature=youtu.be)
 
 ## Screenshots
 
-<img src="screenshots/main.png" height="400" alt="Screenshot"/>
+<img src="screenshots/pic1.png" height="400" alt="Screenshot"/>
+<img src="screenshots/pic2.png" height="400" alt="Screenshot"/>
+<img src="screenshots/pic3.png" height="400" alt="Screenshot"/>
 
-## Acknowledgments
 
-* Hat tip to anyone who's code was used
-* Any other support

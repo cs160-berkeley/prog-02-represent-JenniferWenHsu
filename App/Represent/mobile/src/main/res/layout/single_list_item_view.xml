@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/termHeader"
                 android:textSize="18dp"
-                android:text="End Date Term in Senate:"
+                android:text="Term in Senate:"
                 android:background="#4f4f4f"
                 android:textColor="#ffffff"
                 android:padding="5dp"

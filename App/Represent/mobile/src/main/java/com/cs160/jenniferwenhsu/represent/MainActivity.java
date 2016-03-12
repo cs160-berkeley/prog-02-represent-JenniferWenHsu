@@ -84,6 +84,9 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 sendActivity2Intent.putExtra("ZIP_CODE", zipCodeTxt);
                 startActivity(sendActivity2Intent);
 
+                Intent i2 = new Intent(getBaseContext(), PhoneToWatchService.class);
+                i2.putExtra("ZIP_CODE", zipCodeTxt);
+                startService(i2);
 
                 mApiClient.disconnect(); mApiClient.connect();
             }
@@ -128,6 +131,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
                 //mAddressRequested to be true. Later, when GoogleApiClient connects, we launch the service to
                 //fetch the address.
                 mAddressRequested = true;
+
 
             }
         });

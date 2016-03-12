@@ -30,7 +30,8 @@ public class WatchListenerService extends WearableListenerService {
             intent.putExtra("ZIP_CODE",zip);
             startActivity(intent);
 
-        } else {
+        }
+        else {
             Log.d(TAG, "Failure!");
         }
 

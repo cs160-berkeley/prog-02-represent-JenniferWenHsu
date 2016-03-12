@@ -57,14 +57,14 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     private List<Node> nodes = new ArrayList<>();
 
 
-    public static String [] nameList={"Nancy Pelosi","Kevin McCarthy","Loretta Sanchez", "2012 Vote"};
+    public static String [] nameList={"Representative 1","Representative 2","Representative 3", "Representative 4"};
     public static String [] partyList = {"Democratic", "Republican ", "Democratic", "Obama: 62.5%\nRomney: 37.5%"};
-    public static int [] imageList={R.drawable.pelosi,R.drawable.kevinmccarthy,
-            R.drawable.loretta_sanchez, R.drawable.blury_city};
+    public static int [] imageList={R.drawable.profile_holder,R.drawable.profile_holder,
+            R.drawable.profile_holder, R.drawable.blury_city};
     public static double [] voteList = {75, 25};
 
     public void onButtonClicked(int column){
-        Toast.makeText(getApplicationContext(), "View" + nameList[column]+ " on Phone", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "View position " + column+ " on Phone", Toast.LENGTH_LONG).show();
         Log.d(TAG, "onButtonClicked");
         pos = String.valueOf(column);
 
