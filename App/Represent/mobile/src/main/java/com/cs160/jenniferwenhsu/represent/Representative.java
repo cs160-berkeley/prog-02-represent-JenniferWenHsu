@@ -32,6 +32,16 @@ public class Representative
     private String websiteLink;
     private String termEnd;
 
+    public String getMemberID() {
+        return memberID;
+    }
+
+    public void setMemberID(String memberID) {
+        this.memberID = memberID;
+    }
+
+    private String memberID;
+
     public String getTermStart() {
         return termStart;
     }

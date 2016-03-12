@@ -66,17 +66,11 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     //Receiver registered with this activity to get the response from FetchAddressIntentService
     private AddressResultReceiver mResultReceiver;
 
-    //Displays the location address.
-    protected TextView mLocationAddressTextView;
     @Override
-
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        mLocationAddressTextView = (TextView)findViewById(R.id.location_address_view);
         //clicking on Find button
         final Button button = (Button) findViewById(R.id.zipcodeButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +103,8 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
             public void onClick(View v) {
                 //final String randomZipCode = "12345";
                 //sending zip code to Main2Activity
+
+                Toast.makeText(MainActivity.this, mAddressOutput, Toast.LENGTH_LONG).show();
 
                 Intent i = new Intent(getBaseContext(), Main2Activity.class);
                 //i.putExtra("ZIP_CODE", randomZipCode);
@@ -300,8 +296,7 @@ public class MainActivity extends Activity implements GoogleApiClient.Connection
     }
 
     protected void displayAddressOutput(){
-        Log.d(TAG, "mAddressOutput: "+mAddressOutput);
-        mLocationAddressTextView.setText(mAddressOutput);
+        Log.d(TAG, "mAddressOutput: " + mAddressOutput);
     }
 
     @Override

@@ -47,7 +47,9 @@ import java.util.Map;
 public class Main2Activity extends ListActivity {
     private String TAG ="Main2Activity";
     private String myUrl = "";
+    private String url2 = "";
     public ArrayList<Map> list = new ArrayList<Map>();
+    public ArrayList<String> committee_list = new ArrayList<String>();
     public String[] representative_names = new String[4];
     public static ArrayList<Representative> reps = new ArrayList<>();
 
@@ -61,6 +63,10 @@ public class Main2Activity extends ListActivity {
         String mLongitude = intent.getStringExtra("LONGITUDE");
         String mLatitude = intent.getStringExtra("LATITUDE");
 
+        //Instantiate the RequestQueue
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        //Request a legislators response from the provided URL
         Log.d(TAG, "zipCode value: "+zipCode);
         if(zipCode==null) {
             myUrl = "http://congress.api.sunlightfoundation.com/legislators/locate?" +
@@ -73,10 +79,6 @@ public class Main2Activity extends ListActivity {
 
         Log.d(TAG, "current URL: "+myUrl);
 
-        //Instantiate the RequestQueue
-        RequestQueue queue = Volley.newRequestQueue(this);
-
-        //Request a string response from the provided URL
         StringRequest stringRequest = new StringRequest(Request.Method.GET, myUrl,
                 new Response.Listener<String>(){
             @Override
@@ -114,6 +116,7 @@ public class Main2Activity extends ListActivity {
                     String emailTxt = (String)list.get(count).get("oc_email");
                     String termStartTxt = (String)list.get(count).get("term_start");
                     String termEndTxt = (String)list.get(count).get("term_end");
+                    String bioguideIDTxt = (String)list.get(count).get("bioguide_id");
                     representative_names[count] = firstName + " " + lastName;
 
                     Representative tempRep = new Representative();
@@ -123,6 +126,7 @@ public class Main2Activity extends ListActivity {
                     tempRep.setEmailLink(emailTxt);
                     tempRep.setTermStart(termStartTxt);
                     tempRep.setTermEnd(termEndTxt);
+                    tempRep.setMemberID(bioguideIDTxt);
 
                     reps.add(tempRep);
                     count ++;
@@ -155,6 +159,41 @@ public class Main2Activity extends ListActivity {
 
                     }
                 });
+
+                //Request response from a URL
+                int iteration = 0;
+                String memberID = null;
+                String url2 = null;
+
+                while(iteration< reps.size()){
+                    memberID = reps.get(iteration).getMemberID();
+                    Log.d(TAG, "Member ID: "+memberID);
+                    url2 = "http://congress.api.sunlightfoundation.com/committees?" +
+                            "member_ids="+memberID+"&apikey="+Constants.SUNLIGHT_API;
+                    Log.d(TAG, "current second URL: " + url2);
+                    iteration ++;
+                }
+                RequestQueue queue2 = Volley.newRequestQueue(Main2Activity.this);
+                StringRequest stringRequest2 = new StringRequest(Request.Method.GET, url2,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                committee_list = saveData2(response);
+                                int count = 0;
+                                while (count < committee_list.size()) {
+                                    Log.d(TAG, "committee name:" + committee_list.get(count));
+                                    count++;
+                                }
+                            }
+                        }, new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        Log.d(TAG, "That didn't work!");
+                    }
+                });
+
+                queue2.add(stringRequest2);
+
             }
         }, new Response.ErrorListener(){
             @Override
@@ -162,6 +201,8 @@ public class Main2Activity extends ListActivity {
                 Log.d(TAG, "That didn't work!");
             }
         });
+
+
         //Add the request to the RequestQueue.
         queue.add(stringRequest);
 
@@ -187,7 +228,28 @@ public class Main2Activity extends ListActivity {
                 map.put("oc_email", (String)json3.get("oc_email"));
                 map.put("term_end", (String)json3.get("term_end"));
                 map.put("term_start", (String)json3.get("term_start"));
+                map.put("bioguide_id", (String)json3.get("bioguide_id"));
                 list.add(map);
+                count ++;
+            }
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public ArrayList<String> saveData2(String result){
+        ArrayList<String> list = new ArrayList<String>();
+        try{
+            JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
+            JSONArray json2 = json.getJSONArray("results");
+
+            int count = 0;
+            while(count < json2.length()){
+                JSONObject json3 = json2.getJSONObject(count);
+                list.add((String)json3.get("name"));
                 count ++;
             }
         }

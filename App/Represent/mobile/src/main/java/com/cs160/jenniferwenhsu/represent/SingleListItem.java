@@ -3,6 +3,7 @@ package com.cs160.jenniferwenhsu.represent;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,21 @@ public class SingleListItem extends Activity{
         // displaying selected item information
         txtName.setText(Main2Activity.reps.get(position).getName());
         txtParty.setText(Main2Activity.reps.get(position).getParty());
+
+        //add design to the partyText
+        String party = Main2Activity.reps.get(position).getParty();
+        if(party.equals("D")){
+            txtParty.setText("Democratic");
+            txtParty.setTextColor(Color.BLUE);
+        }
+        else if(party.equals("R")){
+            txtParty.setText("Republican");
+            txtParty.setTextColor(Color.RED);
+        }
+        else{
+            txtParty.setText("Independent");
+            txtParty.setTextColor(Color.BLACK);
+        }
         imgPic.setImageResource(Main2Activity.reps.get(position).getPicID());
         txtContact.setText("Personal Website: " + Main2Activity.reps.get(position).getWebsiteLink() +
                 "\nEmail: " + Main2Activity.reps.get(position).getEmailLink());
